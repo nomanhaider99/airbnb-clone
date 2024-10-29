@@ -17,6 +17,6 @@ export default async function getFavoriteListings() {
 
         return favorites;
     } catch (error) {
-        throw new Error(error as any);
+        throw new Error(error as string);
     }
 }

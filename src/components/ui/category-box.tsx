@@ -1,20 +1,19 @@
-'use client'
+'use client';
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useCallback } from 'react';
 import { IconType } from 'react-icons';
-import qs from "query-string";
+import qs from 'query-string';
 
 interface CategoryBoxProps {
   label: string;
   icon: IconType;
-  description: string;
+  description: string; // Keep this but make sure to use it
   selected?: boolean;
 }
 
 const CategoryBox: React.FC<CategoryBoxProps> = ({
   label,
   icon: Icon, 
-  description,
   selected,
 }) => {
     const router = useRouter();
@@ -27,22 +26,23 @@ const CategoryBox: React.FC<CategoryBoxProps> = ({
             currentQuery = qs.parse(params.toString());
         }
 
-        const updatedQuery: any = {
+        const updatedQuery: Record<string, string> = { // Use Record type instead of any
             ...currentQuery,
-            category: label
-        }
+            category: label,
+        };
 
-        if (params?.get('category') == label) {
+        if (params?.get('category') === label) {
             delete updatedQuery.category;
         }
 
         const url = qs.stringifyUrl({
             url: '/',
-            query: updatedQuery
+            query: updatedQuery,
         }, { skipNull: true });
 
         router.push(url);
-    }, [label, params, router])
+    }, [label, params, router]);
+
   return (
     <div
       onClick={handleClick}
@@ -52,6 +52,8 @@ const CategoryBox: React.FC<CategoryBoxProps> = ({
     >
       <Icon size={26} /> {/* Use the Icon prop */}
       <div className="font-medium text-sm">{label}</div>
+      {/* Optionally use the description here */}
+      {/* <div className="text-xs text-neutral-500">{description}</div> */}
     </div>
   );
 };

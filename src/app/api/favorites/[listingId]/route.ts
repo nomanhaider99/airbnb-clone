@@ -6,7 +6,7 @@ interface IParams {
     listingId?: string;
 }
 
-export async function POST(request: Request, { params }: { params: IParams}) {
+export async function POST(request: Request, { params }: { params: IParams }) {
     const currentUser = await getCurrentUser();
 
     if (!currentUser) {
@@ -19,9 +19,9 @@ export async function POST(request: Request, { params }: { params: IParams}) {
         throw new Error('Invalid ID');
     }
 
-    let favoriteIds = [...(currentUser.favoriteIds || [])];
+    const favoriteIds = [...(currentUser.favoriteIds || [])]; // Change to const
 
-    favoriteIds.push(listingId);
+    favoriteIds.push(listingId); // This line remains as it is
 
     const user = await prisma.user.update({
         where: {
@@ -48,16 +48,16 @@ export async function DELETE(request: Request, { params }: { params: IParams }) 
         throw new Error('Invalid ID');
     }
 
-    let favoriteIds = [...(currentUser.favoriteIds || [])];
+    const favoriteIds = [...(currentUser.favoriteIds || [])]; // Change to const
 
-    favoriteIds = favoriteIds.filter((id) => id !== listingId);
+    const updatedFavoriteIds = favoriteIds.filter((id) => id !== listingId); // Use a new variable for the updated list
 
     const user = await prisma.user.update({
         where: {
             id: currentUser.id,
         },
         data: {
-            favoriteIds: favoriteIds,
+            favoriteIds: updatedFavoriteIds,
         },
     });
 

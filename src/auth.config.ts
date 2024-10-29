@@ -1,9 +1,9 @@
-import GitHub from "next-auth/providers/github"
-import Google from "next-auth/providers/google"
-import type { NextAuthConfig } from "next-auth"
-import Credentials from "next-auth/providers/credentials"
-import { prisma } from "./lib/prisma"
-import { compare } from "bcryptjs"
+import GitHub from "next-auth/providers/github";
+import Google from "next-auth/providers/google";
+import type { NextAuthConfig } from "next-auth";
+import Credentials from "next-auth/providers/credentials";
+import { prisma } from "./lib/prisma";
+import { compare } from "bcryptjs";
 
 export default {
     providers: [
@@ -18,10 +18,10 @@ export default {
         Credentials({
             name: "credentials",
             credentials: {
-                email: {label: 'email', type: 'text'},
-                password: {label: 'password', type: 'password'},
+                email: { label: 'email', type: 'text' },
+                password: { label: 'password', type: 'password' },
             },
-            async authorize(credentials: any) {
+            async authorize(credentials) { // Use the defined type here
                 // Check if both email and password are provided
                 if (!credentials.email || !credentials.password) {
                     throw new Error('Invalid credentials!');
@@ -30,7 +30,7 @@ export default {
                 // Find user by email
                 const user = await prisma.user.findUnique({
                     where: {
-                        email: credentials.email,
+                        email: credentials.email as string,
                     },
                 });
 
@@ -40,7 +40,7 @@ export default {
                 }
 
                 // Compare the provided password with the hashed password
-                const isCorrectPassword = await compare(credentials.password, user.hashedPassword);
+                const isCorrectPassword = await compare(credentials.password as string, user.hashedPassword);
 
                 // If the password is incorrect, throw an error
                 if (!isCorrectPassword) {

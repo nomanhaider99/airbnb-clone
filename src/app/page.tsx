@@ -3,11 +3,11 @@ import getListings, { IListingsParams } from "@/actions/get-listings";
 import EmptyState from "@/components/ui/empty-state";
 import ListingCard from "@/components/ui/listing-card";
 import Container from "@/components/widgets/container";
-import Image from "next/image";
 
 interface HomeProps {
   searchParams: IListingsParams
 }
+
 const Home = async ({ searchParams }: HomeProps) => {
   const listings = await getListings(searchParams);
   const currentUser = await getCurrentUser();

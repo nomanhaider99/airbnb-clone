@@ -1,5 +1,4 @@
 import { prisma } from "@/lib/prisma";
-import { list } from "postcss";
 
 interface IParams {
     listingId: string;
@@ -23,7 +22,10 @@ export default async function getListingById(params: IParams) {
         }
 
         return listing;
-    } catch (error) {
-        throw new Error(error as any);
+    } catch (error: unknown) { // Use 'unknown' instead of 'any'
+        if (error instanceof Error) {
+            throw new Error(error.message);
+        }
+        throw new Error("An unknown error occurred");
     }
 }

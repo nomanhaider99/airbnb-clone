@@ -22,9 +22,10 @@ export async function POST(request: Request) {
         price 
     } = body;   
 
-    Object.keys(body).forEach((value: any) => {
+    // Specify a string type instead of any for value
+    Object.keys(body).forEach((value: string) => {
         if (!body[value]) {
-            NextResponse.error();
+            return NextResponse.error(); // Ensure to return here to stop further execution
         }
     });
 

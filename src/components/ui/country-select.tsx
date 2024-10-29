@@ -4,11 +4,11 @@ import useCountries from '../hooks/useCountrys';
 import Select from "react-select";
 
 export type CountrySelectValue = {
-    flag: string,
-    label: string,
-    latlng: number[],
-    region: string,
-    value: string
+    flag: string;
+    label: string;
+    latlng: number[];
+    region: string;
+    value: string;
 }   
 
 interface CountrySelectProps {
@@ -21,34 +21,35 @@ const CountrySelect: React.FC<CountrySelectProps> = ({
     onChange
 }) => {
     const { getAll } = useCountries();
-  return (
-    <div>
-        <Select 
-            placeholder='Anywhere'
-            isClearable 
-            options={getAll()}
-            value={value}
-            onChange={(value) => onChange(value as CountrySelectValue)}
-            formatOptionLabel={(option: any) => (
-                <div className='flex flex-row items-center gap-3'>
-                    <div>{option.flag}</div>
-                    <div>{option.label},
-                        <span className='text-neutral-500 ml-1'>{option.region}</span>
+
+    return (
+        <div>
+            <Select 
+                placeholder='Anywhere'
+                isClearable 
+                options={getAll()}
+                value={value}
+                onChange={(value) => onChange(value as CountrySelectValue)}
+                formatOptionLabel={(option: CountrySelectValue) => ( // Specify the type here
+                    <div className='flex flex-row items-center gap-3'>
+                        <div>{option.flag}</div>
+                        <div>{option.label},
+                            <span className='text-neutral-500 ml-1'>{option.region}</span>
+                        </div>
                     </div>
-                </div>
-            )}
-            theme={(theme) => ({
-                ...theme,
-                borderRadius: 6,
-                colors: {
-                    ...theme.colors,
-                    primary: 'black',
-                    primary25: '#ffe4e6'
-                }
-            })}
-        />
-    </div>  
-  )
+                )}
+                theme={(theme) => ({
+                    ...theme,
+                    borderRadius: 6,
+                    colors: {
+                        ...theme.colors,
+                        primary: 'black',
+                        primary25: '#ffe4e6'
+                    }
+                })}
+            />
+        </div>  
+    );
 }
 
-export default CountrySelect
+export default CountrySelect;

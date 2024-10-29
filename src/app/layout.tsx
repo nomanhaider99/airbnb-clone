@@ -6,8 +6,8 @@ import RegisterModal from "@/components/models/register-modal";
 import ToasterProvider from "./providers/ToasterProvider";
 import LoginModal from "@/components/models/login-modal";
 import getCurrentUser from "@/actions/get-current-user";
-import { auth } from "@/auth";
 import RentModal from "@/components/models/rent-modal";
+import countries from "world-countries";
 
 const font = Nunito({
   subsets: ["latin"]
@@ -22,12 +22,12 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await auth();
   const currentUser = await getCurrentUser();
+  console.log(countries);
   return (
     <html lang="en">
       <body
-        className={`${font.className} flex flex-col items-center`}
+        className={`${font.className} flex flex-col items-center w-full bg-white`}
       >
         <ToasterProvider />
         <RentModal />
